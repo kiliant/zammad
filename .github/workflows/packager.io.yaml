@@ -49,6 +49,7 @@ jobs:
           debug: true
           env: |
             DATABASE_URL=postgres://zammad:zammad@127.0.0.1:5432/zammad
+            ZAMMAD_SAFE_MODE=1
       - name: Publish
         uses: pkgr/action/publish@main
         with:
