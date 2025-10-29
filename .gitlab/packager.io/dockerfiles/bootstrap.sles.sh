@@ -17,7 +17,7 @@ autorefresh=1
 type=rpm-md"| tee /etc/zypp/repos.d/elasticsearch-7.x.repo
 zypper install -y elasticsearch
 
-rpm --import https://go.packager.io/srv/deb/zammad/zammad/gpg-key.gpg
+rpm --import https://go.packager.io/srv/rpm/zammad/zammad/gpg-key.asc
 
 curl -o /etc/zypp/repos.d/zammad.repo \
   https://go.packager.io/srv/zammad/zammad/${CI_COMMIT_REF_NAME}/installer/sles/${DISTRIBUTION_VERSION}.repo

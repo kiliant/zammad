@@ -17,7 +17,7 @@ autorefresh=1
 type=rpm-md"| tee /etc/yum.repos.d/elasticsearch-7.x.repo
 dnf install -y elasticsearch
 
-rpm --import https://go.packager.io/srv/deb/zammad/zammad/gpg-key.gpg
+rpm --import https://go.packager.io/srv/rpm/zammad/zammad/gpg-key.asc
 
 curl -o /etc/yum.repos.d/zammad.repo \
   https://go.packager.io/srv/zammad/zammad/${CI_COMMIT_REF_NAME}/installer/el/${DISTRIBUTION_VERSION}.repo
