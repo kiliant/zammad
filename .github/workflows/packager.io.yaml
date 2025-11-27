@@ -2,9 +2,10 @@ name: packager.io
 on:
   push:
     branches:
-      - develop*
       - stable*
-      - mg-packager-io
+  schedule:
+    # Build for develop only once per workday to save space in packagehall.
+    - cron:  '20 6 * * 1-5'
   workflow_dispatch:
 
 jobs:
