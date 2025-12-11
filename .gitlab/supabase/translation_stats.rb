@@ -6,11 +6,14 @@ require_relative 'supabase'
 def translation_stats
   require 'poparser'
 
-  Rails.root.glob('i18n/zammad.*.po').map do |file|
+  Locale.where(active: true).where.not(locale: %w[en-us sr-latn-rs]).map do |locale|
+    file = Rails.root.join("i18n/zammad.#{locale.locale}.po")
     po_entries = PoParser.parse_file(file).entries
     translated_count = po_entries.count(&:translated?)
+    locale_code = file.to_s.split('.')[-2]
     {
-      locale:                         file.to_s.split('.')[-2],
+      locale:                         locale_code,
+      locale_name:                    locale.name,
       branch:                         ENV['CI_COMMIT_REF_NAME'],
       version:                        ENV['CI_COMMIT_REF_NAME'] == 'develop' ? '' : Version.get,
       strings:                        po_entries.count,
