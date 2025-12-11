@@ -10,9 +10,8 @@ def translation_stats
     file = Rails.root.join("i18n/zammad.#{locale.locale}.po")
     po_entries = PoParser.parse_file(file).entries
     translated_count = po_entries.count(&:translated?)
-    locale_code = file.to_s.split('.')[-2]
     {
-      locale:                         locale_code,
+      locale:                         locale.locale,
       locale_name:                    locale.name,
       branch:                         ENV['CI_COMMIT_REF_NAME'],
       version:                        ENV['CI_COMMIT_REF_NAME'] == 'develop' ? '' : Version.get,
