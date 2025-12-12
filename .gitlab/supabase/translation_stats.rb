@@ -39,8 +39,8 @@ def run
   puts 'Done.'
 
   puts 'Submitting to supabase…'
-  pp payload: payload
-  # Supabase.submit('zammad_translation_stats', payload)
+  pp payload
+  Supabase.submit('zammad_translation_stats', payload)
   puts 'Done.'
 end
 
