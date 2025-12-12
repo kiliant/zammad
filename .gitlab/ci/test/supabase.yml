@@ -15,7 +15,6 @@ supabase:translation_stats:
   #    when: always
   #  - when: never
   script:
-    - !reference [.scripts, zammad_db_init]
     - bundle exec rails runner .gitlab/supabase/translation_stats.rb
 
 supabase:github_stats:
