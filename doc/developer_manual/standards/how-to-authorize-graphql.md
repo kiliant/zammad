@@ -1,9 +1,9 @@
-# How to authorize GraphQL operations
+# How to Authorize GraphQL Operations
 
 GraphQL operations (queries, mutations and subscriptions) must validate various parameters to ensure users cannot
 perform unauthorized actions. Most common scenarios are covered by built-in helpers.
 
-## Allow public access
+## Allow Public Access
 
 By default, all operations are accessible to logged-in users, but occasionally unauthenticated sessions need access as well.
 
@@ -13,7 +13,7 @@ class Query
 end
 ```
 
-## Check user permissions
+## Check User Permissions
 
 This is a simple check of the current user’s permissions. It supports multiple permissions using OR logic. As well as a
 plus-style syntax for AND checks.
@@ -36,13 +36,13 @@ class Mutation
 end
 ```
 
-## Use the Pundit, developer
+## Use the Pundit, Developer
 
 In many cases, a clever usage of Pundit policies may be the cleanest approach!
 
-For example, we want to check wether a user is allowed to add a new item to the Checklist. At first glance, we might
-manually call `ChecklistItemPolicy#create?`. However, we can instead rely on Checklist's own policy when loading the
-object. If the user is allowed to update the Checklist, adding a new item is implicitly permitted. In practice, we are
+For example, we want to check wether a user is allowed to add a new item to the checklist. At first glance, we might
+manually call `ChecklistItemPolicy#create?`. However, we can instead rely on checklist's own policy when loading the
+object. If the user is allowed to update the checklist, adding a new item is implicitly permitted. In practice, we are
 already checking whether the user can show? the checklist anyway.
 
 ```ruby
@@ -55,7 +55,7 @@ class AddChecklistItem < Mutation
 end
 ```
 
-## Neither of above matches my use case
+## Neither of Above Matches My Use Case
 
 Sometimes a special case arises where none of the above helpers are sufficient. In such cases, override the **instance**
 method `def authorized?`.
@@ -79,7 +79,7 @@ class Query
 end
 ```
 
-## Disable CSRF check
+## Disable CSRF Check
 
 This is not exactly authorization, but it's somewhat related. Usually CSRF is required to prevent cross-site
 forgery attacks. However, sometimes there're legit reasons to allow any POST request.
