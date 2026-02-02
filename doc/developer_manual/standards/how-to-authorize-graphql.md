@@ -1,10 +1,11 @@
 # How to authorize GraphQL operations
 
-GraphQL operations (queries, mutations and subscriptions) need to check various parameters to ensure user cannot do something that is not allowed! Most common scenarios are covered by built-in helpers.
+GraphQL operations (queries, mutations and subscriptions) must validate various parameters to ensure users cannot
+perform unauthorized actions. Most common scenarios are covered by built-in helpers.
 
 ## Allow public access
 
-By default, all operations are accessible to any logged in users. But sometimes guest sessions need access too.
+By default, all operations are accessible to logged-in users, but occasionally guest sessions need access as well.
 
 ```ruby
 class Query
@@ -12,9 +13,10 @@ class Query
 end
 ```
 
-## Require user permissions
+## Check user permissions
 
-This is a simple current user permissions check. It can take multiple permissions for OR check as well as plus-style for AND check.
+This is a simple check of the current user’s permissions. It supports multiple permissions using OR logic. As well as a
+plus-style syntax for AND checks.
 
 ```ruby
 class Query
@@ -24,7 +26,8 @@ end
 
 ## Require a Setting
 
-Some stuff requires a specific `Setting`. Or, sometimes, specific `Setting` being NOT turned on. Those two helpers can handle that. Both can take a custom error message too! 
+Some features require a specific `Setting` to be enabled or, in some cases, explicitly disabled. These two helpers
+handle both scenarios and also support custom error messages.
 
 ```ruby
 class Mutation
@@ -33,11 +36,14 @@ class Mutation
 end
 ```
 
-## Use the Pundit, developer!
+## Use the Pundit, developer
 
 In many cases, a clever usage of Pundit policies may be the cleanest approach!
 
-For example, we want to check if the user is allowed to add a new item to the checklist. At first sight, we may want to check manually using `ChecklistItemPolicy#create?`. But on the other hand we can simply check if it's OK to update the checklist while loading that object. We'd be checking if we can `show?` the Checklist anyway.
+For example, we want to check wether a user is allowed to add a new item to the Checklist. At first glance, we might
+manually call `ChecklistItemPolicy#create?`. However, we can instead rely on Checklist's own policy when loading the
+object. If the user is allowed to update the Checklist, adding a new item is implicitly permitted. In practice, we are
+already checking whether the user can show? the checklist anyway.
 
 ```ruby
 class AddChecklistItem < Mutation
@@ -49,9 +55,15 @@ class AddChecklistItem < Mutation
 end
 ```
 
-## Neither of above matches my use case!1!!
+## Neither of above matches my use case
 
-Sometimes an interesting case pops up and neither of above helps. In such case, please override `def authorized?` **instance** method. Return `true` on success. In case of a failure, there're two legit approaches. Simply return `false`. Or raise `Exceptions::Forbidden` with a custom error message.
+Sometimes a special case arises where none of the above helpers are sufficient. In such cases, override the **instance**
+method `def authorized?`.
+
+- Return `true` if check passes.
+- If the check fails, you have two options:
+  - Return `false`.
+  - Raise `Exceptions::Forbidden` with a custom error message.
 
 Please **do not override** `self.authorized?` class method! Nor the old `self.authorize`!
 
@@ -69,7 +81,8 @@ end
 
 ## Disable CSRF check
 
-This is not exactly authorization, but it's still somewhat related. Usually CSRF is required to prevent cross-site forgery attacks. But sometimes there're legit reasons to allow any POST request.
+This is not exactly authorization, but it's somewhat related. Usually CSRF is required to prevent cross-site
+forgery attacks. However, sometimes there're legit reasons to allow any POST request.
 
 Applies to mutations only!
 
