@@ -5,7 +5,7 @@ perform unauthorized actions. Most common scenarios are covered by built-in help
 
 ## Allow public access
 
-By default, all operations are accessible to logged-in users, but occasionally guest sessions need access as well.
+By default, all operations are accessible to logged-in users, but occasionally unauthenticated sessions need access as well.
 
 ```ruby
 class Query
@@ -31,7 +31,7 @@ handle both scenarios and also support custom error messages.
 
 ```ruby
 class Mutation
-  requires_enabled_setting 'checklist', error_message: 'Custom Error'
+  requires_enabled_setting 'checklist', error_message: __('Custom Error')
   requires_disabled_setting 'blocker'
 end
 ```
